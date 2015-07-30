@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="import" href="paper-people-list.html">
+	</head>
+	<body>
+		<template is="dom-bind" id="Demo">
+			<paper-people-list data=[[data]]></paper-people-list>
+		</template>
+		<script>
+			Demo.data = [{
+				"avatar": 'demo-assets/cat.jpeg',
+				"name": 'Random Cat',
+				"identifier": 'rc@rc.com'
+			}, {
+				"avatar": 'demo-assets/grumpycat.jpeg',
+				"name": 'Grumpy Cat',
+				"identifier": 'grumpy@gc.com'
+			}, {
+				"avatar": 'demo-assets/nyancat.jpeg',
+				"name": 'Nyan Cat',
+				"identifier": 'nyan@cat.com'
+			}, {
+				"avatar": 'demo-assets/sadcat.jpeg',
+				"name": 'Sad Cat',
+				"identifier": 'sad@depressed.com'
+			}];
+		</script>
+	</body>
+</html>

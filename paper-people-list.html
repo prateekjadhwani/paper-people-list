@@ -1,0 +1,53 @@
+
+<link rel="import" href="../paper-input/paper-input-container.html">
+<link rel="import" href="../paper-chip/paper-chip.html">
+
+<dom-module id="paper-people-list">
+	<style>
+		paper-chip {
+			display: inline-block;
+			margin: 10px 10px 20px 0;
+		}
+	</style>
+	<template>
+		<paper-input-container>
+			<template is="dom-repeat" items="{{people}}">
+				<paper-chip removable>
+					<iron-icon class='icon' icon='avatars:avatar-1'></iron-icon>
+					<h1>{{item.name}}</h1>
+					<h2>{{item.identifier}}</h2>
+				</paper-chip>
+			</template>
+			<input is="iron-input">
+		</paper-input-container>
+		<iron-dropdown horizontal-align="right" vertical-align="top">
+			<div class="dropdown-content">Hello!</div>
+		</iron-dropdown>
+	</template>
+</dom-module>
+<script>
+	( function () {
+		Polymer({
+			is: 'paper-people-list',
+			properties: {
+				/*
+				 * 	{
+				 			avatar: 'someurl.png'
+				 			name: 'Prateek',
+							identifier: 'abc@abc.com'
+				 		}
+				*/
+				people: {
+					type: Array,
+					value: [],
+					notify: true
+				},
+				data: {
+					type: Object,
+					value: [],
+					notify: true
+				}
+			}
+		});
+	})();
+</script>

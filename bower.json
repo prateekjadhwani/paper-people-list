@@ -1,0 +1,26 @@
+{
+  "name": "paper-people-list",
+  "version": "0.0.0",
+  "authors": [
+    "Prateek Jadhwani <prateekjadhwani@users.noreply.github.com>"
+  ],
+  "description": "A paper element that is used to keep a track of people added to the list",
+  "main": "paper-people-list.html",
+  "keywords": [
+    "web-components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.0.8",
+    "paper-input": "PolymerElements/paper-input#~1.0.6",
+    "paper-chip": "~1.0.0",
+    "iron-dropdown": "PolymerElements/iron-dropdown#~1.0.3"
+  }
+}
