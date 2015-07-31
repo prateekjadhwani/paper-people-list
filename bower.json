@@ -21,6 +21,10 @@
     "polymer": "Polymer/polymer#~1.0.8",
     "paper-input": "PolymerElements/paper-input#~1.0.6",
     "paper-chip": "~1.0.0",
-    "iron-dropdown": "PolymerElements/iron-dropdown#~1.0.3"
+    "iron-dropdown": "PolymerElements/iron-dropdown#~1.0.3",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.3",
+    "paper-item": "PolymerElements/paper-item#~1.0.2",
+    "iron-icon": "PolymerElements/iron-icon#~1.0.2",
+    "paper-material": "PolymerElements/paper-material#~1.0.1"
   }
 }

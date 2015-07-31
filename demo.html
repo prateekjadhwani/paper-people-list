@@ -1,30 +1,75 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="import" href="../iron-ajax/iron-ajax.html">
+		<link rel="import" href="../paper-material/paper-material.html">
 		<link rel="import" href="paper-people-list.html">
+		<style>
+			.container {
+				margin: 40px auto;
+				padding: 20px;
+				width: 400px;
+			}
+		</style>
 	</head>
 	<body>
 		<template is="dom-bind" id="Demo">
-			<paper-people-list data=[[data]]></paper-people-list>
+			<iron-ajax
+				 id="githubSearch"
+				 url="https://api.github.com/search/users"
+				 method="GET"
+				 params='[[params]]'
+				 on-response="handleResponse"
+				 on-error="handleError" ></iron-ajax>
+			<paper-material class="container">
+				<paper-people-list
+						data="{{data}}"
+						on-search-changed="handleChange"></paper-people-list>
+			</paper-material>
 		</template>
 		<script>
-			Demo.data = [{
-				"avatar": 'demo-assets/cat.jpeg',
-				"name": 'Random Cat',
-				"identifier": 'rc@rc.com'
-			}, {
-				"avatar": 'demo-assets/grumpycat.jpeg',
-				"name": 'Grumpy Cat',
-				"identifier": 'grumpy@gc.com'
-			}, {
-				"avatar": 'demo-assets/nyancat.jpeg',
-				"name": 'Nyan Cat',
-				"identifier": 'nyan@cat.com'
-			}, {
-				"avatar": 'demo-assets/sadcat.jpeg',
-				"name": 'Sad Cat',
-				"identifier": 'sad@depressed.com'
-			}];
+			Demo.data = [],
+			Demo.params = '';
+
+			/*
+			 * Handles Success Response from the api
+			 * and puts them in `data` attribute of
+			 * paper-people-list
+			*/
+			Demo.handleResponse = function (e, detail) {
+				var data = e.detail.response.items.slice(0, 5),
+						tempArray = [];
+				data.forEach( function(el, index) {
+					tempArray.push({
+						"avatar": el.avatar_url,
+						"name": el.login,
+						"identifier": el.html_url
+					});
+				});
+				Demo.data = tempArray;
+			};
+
+			/*
+			 * Handles Errors
+			*/
+			Demo.handleError = function (e, detail) {
+				console.log(e.detail.response);
+			};
+
+			/*
+			 * Handles search parameter changes
+			 * and requests data again
+			 */
+			Demo.handleChange = function (e, detail) {
+				if(detail.search != undefined) {
+					Demo.params = {
+						"q": detail.search
+					};
+					if(detail.search.length > 5) {
+						this.$.githubSearch.generateRequest();
+					}
+				}
+			};
 		</script>
 	</body>
 </html>

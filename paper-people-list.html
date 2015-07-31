@@ -1,6 +1,12 @@
 
 <link rel="import" href="../paper-input/paper-input-container.html">
 <link rel="import" href="../paper-chip/paper-chip.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-item/paper-item-body.html">
+<link rel="import" href="../paper-item/paper-icon-item.html">
+<link rel="import" href="../paper-material/paper-material.html">
 
 <dom-module id="paper-people-list">
 	<style>
@@ -8,20 +14,45 @@
 			display: inline-block;
 			margin: 10px 10px 20px 0;
 		}
+		iron-dropdown {
+			position: relative;
+		}
+		iron-icon {
+			border-radius: 50%;
+			height: 40px;
+			width: 40px;
+		}
+		iron-icon /deep/ img {
+			border-radius: 50%;
+		}
 	</style>
 	<template>
-		<paper-input-container>
+		<paper-input-container class="dropdown-trigger">
 			<template is="dom-repeat" items="{{people}}">
 				<paper-chip removable>
-					<iron-icon class='icon' icon='avatars:avatar-1'></iron-icon>
+					<iron-icon class='icon' src="{{item.avatar}}"></iron-icon>
 					<h1>{{item.name}}</h1>
 					<h2>{{item.identifier}}</h2>
 				</paper-chip>
 			</template>
-			<input is="iron-input">
+			<input id="searchbar" is="iron-input" on-keyup="_searchChanged">
 		</paper-input-container>
-		<iron-dropdown horizontal-align="right" vertical-align="top">
-			<div class="dropdown-content">Hello!</div>
+		<iron-dropdown id="dropdown">
+			<div class="dropdown-content">
+				<paper-material elevation="1">
+					<template is="dom-repeat" items="{{data}}">
+						<paper-icon-item on-tap="addItemToList">
+							<div class="avatar" item-icon>
+								<iron-icon src="{{item.avatar}}"></iron-icon>
+							</div>
+							<paper-item-body two-line>
+								<div>{{item.name}}</div>
+								<div secondary>{{item.identifier}}</div>
+							</paper-item-body>
+						</paper-icon-item>
+					</template>
+				</paper-material>
+			</div>
 		</iron-dropdown>
 	</template>
 </dom-module>
@@ -37,16 +68,49 @@
 							identifier: 'abc@abc.com'
 				 		}
 				*/
+				
+				/*
+				 *	Total number of people selected
+				*/
 				people: {
-					type: Array,
-					value: [],
-					notify: true
-				},
-				data: {
 					type: Object,
 					value: [],
 					notify: true
+				},
+
+				/*
+				 *	data obtained from the server
+				 */
+				data: {
+					type: Object,
+					value: [],
+					notify: true,
+					observer: '_handleDataChange'
+				},
+
+				/*
+				 * the search parameter of the input field
+				 */
+				search: {
+					type: String,
+					value: "",
+					notify: true
 				}
+			},
+			_searchChanged: function (e, detail) {
+				if(e.target.value) {
+					this.fire('search-changed', {
+						search: e.target.value
+					});
+				}
+			},
+			_handleDataChange: function () {
+				this.$.dropdown.open();
+			},
+			addItemToList: function (e, detail) {
+				var tempArray = this.people;
+				tempArray.push(e.model.item);
+				this.people = tempArray;
 			}
 		});
 	})();
