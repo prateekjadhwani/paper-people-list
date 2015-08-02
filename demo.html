@@ -9,6 +9,13 @@
 				margin: 40px auto;
 				padding: 20px;
 				width: 400px;
+				display: flex;
+			}
+			.container paper-people-list {
+				flex: 1;
+			}
+			.container p {
+				margin-right: 20px;
 			}
 		</style>
 	</head>
@@ -22,9 +29,10 @@
 				 on-response="handleResponse"
 				 on-error="handleError" ></iron-ajax>
 			<paper-material class="container">
+				<p>To</p>
 				<paper-people-list
-						data="{{data}}"
-						on-search-changed="handleChange"></paper-people-list>
+					data="{{data}}"
+					on-search-changed="handleChange"></paper-people-list>
 			</paper-material>
 		</template>
 		<script>

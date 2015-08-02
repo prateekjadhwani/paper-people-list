@@ -12,10 +12,18 @@
 	<style>
 		paper-chip {
 			display: inline-block;
-			margin: 10px 10px 20px 0;
+			margin: 10px 10px 0px 0;
 		}
 		iron-dropdown {
 			position: relative;
+			top: 0 !important;
+			left: 0 !important;
+		}
+		iron-dropdown /deep/ .dropdown-content {
+			position: absolute;
+			margin-top: 20px;
+			padding: 2px;
+			background: white;
 		}
 		iron-icon {
 			border-radius: 50%;
@@ -27,21 +35,21 @@
 		}
 	</style>
 	<template>
+		<template is="dom-repeat" items="{{people}}">
+			<paper-chip removable>
+				<iron-icon class='icon' src="{{item.avatar}}"></iron-icon>
+				<h1>{{item.name}}</h1>
+				<h2>{{item.identifier}}</h2>
+			</paper-chip>
+		</template>
 		<paper-input-container class="dropdown-trigger">
-			<template is="dom-repeat" items="{{people}}">
-				<paper-chip removable>
-					<iron-icon class='icon' src="{{item.avatar}}"></iron-icon>
-					<h1>{{item.name}}</h1>
-					<h2>{{item.identifier}}</h2>
-				</paper-chip>
-			</template>
 			<input id="searchbar" is="iron-input" on-keyup="_searchChanged">
 		</paper-input-container>
 		<iron-dropdown id="dropdown">
 			<div class="dropdown-content">
 				<paper-material elevation="1">
 					<template is="dom-repeat" items="{{data}}">
-						<paper-icon-item on-tap="addItemToList">
+						<paper-icon-item on-tap="_addItemToList">
 							<div class="avatar" item-icon>
 								<iron-icon src="{{item.avatar}}"></iron-icon>
 							</div>
@@ -73,7 +81,7 @@
 				 *	Total number of people selected
 				*/
 				people: {
-					type: Object,
+					type: Array,
 					value: [],
 					notify: true
 				},
@@ -107,10 +115,10 @@
 			_handleDataChange: function () {
 				this.$.dropdown.open();
 			},
-			addItemToList: function (e, detail) {
-				var tempArray = this.people;
-				tempArray.push(e.model.item);
-				this.people = tempArray;
+			_addItemToList: function (e, detail) {
+				this.push('people',e.model.item);
+				this.$.searchbar.value = "";
+				this.$.dropdown.close();
 			}
 		});
 	})();
