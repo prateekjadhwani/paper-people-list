@@ -31,7 +31,7 @@ An example value of `data` attribute can be
 [
   {
     "avatar": "abc.png",
-    "name": "Some Random Name"
+    "name": "Some Random Name",
 	"identifier": "someemail@random.com"
   },
   ...
