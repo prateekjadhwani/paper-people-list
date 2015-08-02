@@ -24,6 +24,7 @@
 			margin-top: 20px;
 			padding: 2px;
 			background: white;
+			z-index: 999;
 		}
 		iron-icon {
 			border-radius: 50%;
@@ -36,7 +37,7 @@
 	</style>
 	<template>
 		<template is="dom-repeat" items="{{people}}">
-			<paper-chip removable>
+			<paper-chip removable on-remove="_handleChipRemoval">
 				<iron-icon class='icon' src="{{item.avatar}}"></iron-icon>
 				<h1>{{item.name}}</h1>
 				<h2>{{item.identifier}}</h2>
@@ -119,6 +120,16 @@
 				this.push('people',e.model.item);
 				this.$.searchbar.value = "";
 				this.$.dropdown.close();
+			},
+			_handleChipRemoval: function (e, detail) {
+				var current = e.model.item.identifier,
+					index = null;
+				this.people.forEach( function (val, i) {
+					if(val.identifier === current) {
+						index = i;
+					}
+				});
+				this.splice('people', index, 1);
 			}
 		});
 	})();

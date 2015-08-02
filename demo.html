@@ -3,6 +3,7 @@
 	<head>
 		<link rel="import" href="../iron-ajax/iron-ajax.html">
 		<link rel="import" href="../paper-material/paper-material.html">
+		<link rel="import" href="../paper-button/paper-button.html">
 		<link rel="import" href="paper-people-list.html">
 		<style>
 			.container {
@@ -16,6 +17,9 @@
 			}
 			.container p {
 				margin-right: 20px;
+			}
+			paper-button {
+				display: block;
 			}
 		</style>
 	</head>
@@ -34,6 +38,8 @@
 					data="{{data}}"
 					on-search-changed="handleChange"></paper-people-list>
 			</paper-material>
+			<paper-button raised on-tap="showData">Show me the data</paper-button>
+			<div class="output"></div>
 		</template>
 		<script>
 			Demo.data = [],
@@ -78,6 +84,15 @@
 					}
 				}
 			};
+			
+			Demo.showData = function (e, detail) {
+				var outputdata = document.querySelector("paper-people-list").people;
+				var output ='';
+				outputdata.forEach( function (val) {
+					output += "<p>" + val.identifier + "</p>";
+				});
+				document.querySelector('.output').innerHTML = output;
+			}
 		</script>
 	</body>
 </html>
